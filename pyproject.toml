@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "abstructs"
+version = "0.1.0"
+description = ""
+authors = ["Beau <cbeauhilton@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+sqlmodel = "^0.0.19"
+httpx = "^0.27.0"
+selectolax = "^0.3.21"
+pydantic-settings = "^2.3.2"
+instructor = "^1.3.3"
+playwright = "^1.44.0"
+fastui = "^0.6.0"
+pyalex = "^0.14"
+groq = "^0.9.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+ruff = "^0.4.8"
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
