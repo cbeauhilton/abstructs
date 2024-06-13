@@ -21,9 +21,6 @@ COPY . /app
 # Install dependencies
 RUN poetry install --only main
 
-# Copy the current directory contents into the container at /app
-# COPY . /app
-
 # Expose port 8000
 EXPOSE 8000
 
