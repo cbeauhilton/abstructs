@@ -1,76 +1,85 @@
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
-  <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th
-            scope="col"
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-          >
-            Field
-          </th>
-          <th
-            scope="col"
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-          >
-            Value
-          </th>
-        </tr>
-      </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
-        {% if summary %} {% set field_order = ['Trial_Name', 'doi', 'Diagnosis',
-        'Drugs', 'Line_of_therapy', 'Regimen', 'Primary_End_Point',
-        'Secondary_End_Point', 'Competitor_arm', 'Efficacy', 'Response_Types',
-        'Time_to_Response', 'Surveillance', 'Subsets', 'Adverse_Events',
-        'Others', 'Conclusion' ] %} {% for field in field_order %} {% if field
-        in summary.dict() %}
-        <tr>
-          <td class="px-6 py-4 whitespace-nowrap">
-            {% if field == 'doi' %} {{ field.upper() }} {% else %} {{
-            field.replace("_", " ").title() }} {% endif %}
-          </td>
-          <td class="px-6 py-4 whitespace-normal">
-            {% if field == 'doi' and summary.dict()[field] %}
-            <a
-              href="{{ summary.dict()[field] }}"
-              target="_blank"
-              class="text-blue-500 hover:text-blue-700 underline"
-            >
-              {{ summary.dict()[field] }}
-            </a>
-            {% else %} {{ summary.dict()[field] }} {% endif %}
-          </td>
-        </tr>
-        {% endif %} {% endfor %} {% else %}
-        <tr>
-          <td colspan="2" class="px-6 py-4 text-center">
-            No summary available
-          </td>
-        </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
-</div>
-<div class="mt-8">
-  <label for="json-output" class="block text-gray-700 font-bold mb-2"
-    >JSON Output:</label
+<div class="px-4 py-8">
+  <div
+    class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden max-w-full mx-auto"
   >
-  <div class="relative">
-    <textarea
-      id="json-output"
-      rows="6"
-      class="w-full px-3 py-2 pr-16 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
-      readonly
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-700">
+          <tr>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+            >
+              Field
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+            >
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+        >
+          {% if summary %} {% set field_order = ['Trial_Name', 'doi',
+          'Diagnosis', 'Drugs', 'Line_of_therapy', 'Regimen',
+          'Primary_End_Point', 'Secondary_End_Point', 'Competitor_arm',
+          'Efficacy', 'Response_Types', 'Time_to_Response', 'Surveillance',
+          'Subsets', 'Adverse_Events', 'Others', 'Conclusion' ] %} {% for field
+          in field_order %} {% if field in summary.dict() %}
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap dark:text-white">
+              {% if field == 'doi' %} {{ field.upper() }} {% else %} {{
+              field.replace("_", " ").title() }} {% endif %}
+            </td>
+            <td class="px-6 py-4 whitespace-normal dark:text-white">
+              {% if field == 'doi' and summary.dict()[field] %}
+              <a
+                href="{{ summary.dict()[field] }}"
+                target="_blank"
+                class="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline"
+              >
+                {{ summary.dict()[field] }}
+              </a>
+              {% else %} {{ summary.dict()[field] }} {% endif %}
+            </td>
+          </tr>
+          {% endif %} {% endfor %} {% else %}
+          <tr>
+            <td colspan="2" class="px-6 py-4 text-center dark:text-white">
+              No summary available
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mt-8 max-w-full">
+    <label
+      for="json-output"
+      class="block text-gray-700 dark:text-gray-400 font-bold mb-2"
+      >JSON Output:</label
     >
+    <div class="relative">
+      <textarea
+        id="json-output"
+        rows="6"
+        class="w-full px-3 py-2 pr-16 text-gray-700 dark:text-gray-400 dark:bg-gray-800 border dark:border-gray-600 rounded-lg focus:outline-none focus:border-blue-500"
+        readonly
+      >
 {{ summary_json }}</textarea
-    >
-    <button
-      id="copy-button"
-      class="absolute top-2 right-4 bg-blue-500 bg-opacity-80 hover:bg-opacity-100 text-white text-xs font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-    >
-      Copy
-    </button>
+      >
+      <button
+        id="copy-button"
+        class="absolute top-2 right-4 bg-blue-500 bg-opacity-80 hover:bg-opacity-100 text-white text-xs font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+      >
+        Copy
+      </button>
+    </div>
   </div>
 </div>
 <script>
