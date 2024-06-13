@@ -65,10 +65,6 @@ Same deal, but returns raw JSON.
 
 Fork and PR, you know the drill.
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-
 ## TODO
 
 - add a dev mode flag that selects local db and uses a free LLM
