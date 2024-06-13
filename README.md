@@ -8,7 +8,8 @@ It's a placeholder based on passing in some of the files as of 2024-06-13.
 
 ---
 
-Abstructs is a Python-based application using FastAPI to summarize clinical trial data from abstracts. 
+Abstructs is a Python-based application using FastAPI and LLMs
+to generate a structured summary of clinical trial data from abstracts. 
 The application interacts with various language model clients, manages configurations, and handles database operations.
 
 ## Installation
@@ -23,9 +24,14 @@ Ensure you have Poetry installed. If not, you can install it from [here](https:/
 
 ## Deployment
 
-You'll need an API keys for OpenAI or Groq (choose your model in the <./src/abstructs/llm_client.py> file).
-Turso provides databases, you'll need an account (free tier is plenty).
-Fly.io provides the VMs (free tier is also plenty).
+You'll need an API key for
+[OpenAI](https://openai.com/)
+or
+[Groq](https://www.groq.com/)
+(choose your model in the [llm_client.py](./src/abstructs/llm_client.py) file).
+[Turso](https://www.turso.tech/) provides databases (free tier is plenty).
+[Fly.io](https://fly.io/) provides VMs (free tier is also plenty).
+
 
 ## Configuration
 
