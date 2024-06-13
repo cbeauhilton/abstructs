@@ -4,23 +4,25 @@ from abstructs.database import (
     engine,
 )
 from abstructs.llm_client import get_llm_response
-from abstructs.fetcher import fetch_abstract
+from abstructs.fetcher import fetch_abstract, extract_doi
 from abstructs.logging_config import setup_logging
 from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 logger = setup_logging()
-templates = Jinja2Templates(directory="./templates")
+templates = Jinja2Templates(directory="src/templates")
 app = FastAPI()
 
 
 async def get_structured_response(url: str):
     logger.info(f"Received URL: {url}")
     # Check if a response for the given URL already exists in the database
+    doi = extract_doi(url)
+
     with Session(engine) as session:
         statement = select(StructuredResponseWithURL).where(
-            StructuredResponseWithURL.url == url
+            StructuredResponseWithURL.doi == doi
         )
         cached_response = session.exec(statement).first()
 
@@ -31,7 +33,7 @@ async def get_structured_response(url: str):
         abstract = await fetch_abstract(url)
         llm_response = await get_llm_response(abstract)
         structured_response = StructuredResponseWithURL(
-            url=url, **llm_response.model_dump()
+            url=url, doi=doi, **llm_response.model_dump()
         )
         with Session(engine) as session:
             session.add(structured_response)
