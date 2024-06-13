@@ -1,6 +1,6 @@
 # abstructs
 
-abstructs is a Python-based application using FastAPI and LLMs
+`abstructs` is a Python-based application using FastAPI and LLMs
 to generate structured summaries of clinical trial data from abstracts. 
 
 It was inspired by the indomitable Jim Chen's Pythonista script.
