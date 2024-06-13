@@ -9,7 +9,7 @@ It's a placeholder based on passing in some of the files as of 2024-06-13.
 ---
 
 Abstructs is a Python-based application using FastAPI and LLMs
-to generate a structured summary of clinical trial data from abstracts. 
+to generate structured summaries of clinical trial data from abstracts. 
 The application interacts with various language model clients, manages configurations, and handles database operations.
 
 ## Installation
