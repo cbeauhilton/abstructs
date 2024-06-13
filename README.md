@@ -37,8 +37,10 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str
     TURSO_DATABASE_URL: str
     TURSO_AUTH_TOKEN: str
-    PYALEX_EMAIL: str # Whatever email address you want, doesn't even have to be real. 
-    # It's not required, but makes you a good citizen and gets you slightly faster responses.
+    PYALEX_EMAIL: str # Whatever email address you want,
+    # doesn't even have to be real.
+    # It's not required, but makes you a good citizen
+    # and might get you slightly faster responses.
 
     class Config:
         env_file = ".env"
