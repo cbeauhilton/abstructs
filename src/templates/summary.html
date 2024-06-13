@@ -18,12 +18,12 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        {% if summary %} {% set field_order = [ 'Diagnosis', 'Drugs',
-        'Line_of_therapy', 'Regimen', 'Primary_End_Point',
+        {% if summary %} {% set field_order = ['Trial_Name', 'doi', 'Diagnosis',
+        'Drugs', 'Line_of_therapy', 'Regimen', 'Primary_End_Point',
         'Secondary_End_Point', 'Competitor_arm', 'Efficacy', 'Response_Types',
         'Time_to_Response', 'Surveillance', 'Subsets', 'Adverse_Events',
-        'Trial_Name', 'doi', 'Others', 'Conclusion' ] %} {% for field in
-        field_order %} {% if field in summary.dict() %}
+        'Others', 'Conclusion' ] %} {% for field in field_order %} {% if field
+        in summary.dict() %}
         <tr>
           <td class="px-6 py-4 whitespace-nowrap">
             {% if field == 'doi' %} {{ field.upper() }} {% else %} {{

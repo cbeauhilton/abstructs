@@ -1,3 +1,5 @@
+import os
+
 from pydantic_settings import BaseSettings
 
 
@@ -7,6 +9,9 @@ class Settings(BaseSettings):
     TURSO_DATABASE_URL: str
     TURSO_AUTH_TOKEN: str
     PYALEX_EMAIL: str
+    TEMPLATES_DIR: str = os.path.join(os.getcwd(), "templates")
+    AUTH_USERNAME: str
+    AUTH_PASSWORD: str
 
     class Config:
         env_file = ".env"
