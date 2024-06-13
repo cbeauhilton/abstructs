@@ -4,13 +4,14 @@ from abstructs.fetcher import extract_doi, fetch_abstract
 from abstructs.llm_client import get_llm_response
 from abstructs.logging_config import setup_logging
 from abstructs.config import settings
+from abstructs.templating import get_templates
 from fastapi import APIRouter, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from sqlmodel import Session, select
 
 from fastapi.templating import Jinja2Templates
 
-templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
+# templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 
 logger = setup_logging()
 router = APIRouter()
@@ -43,7 +44,11 @@ async def get_structured_response(url: str):
 
 
 @router.get("/abstructs/{abstruct_id}", response_class=HTMLResponse)
-async def get_abstruct(request: Request, abstruct_id: int):
+async def get_abstruct(
+    request: Request,
+    abstruct_id: int,
+    templates: Jinja2Templates = Depends(get_templates),
+):
     with Session(engine) as session:
         abstruct = session.get(StructuredResponseWithURL, abstruct_id)
     if not abstruct:
@@ -59,7 +64,11 @@ async def get_abstruct(request: Request, abstruct_id: int):
 
 
 @router.post("/abstructs", response_class=HTMLResponse)
-async def create_abstruct(request: Request, url: str = Form(...)):
+async def create_abstruct(
+    request: Request,
+    url: str = Form(...),
+    templates: Jinja2Templates = Depends(get_templates),
+):
     try:
         llm_response = await get_structured_response(url)
         return templates.TemplateResponse(
