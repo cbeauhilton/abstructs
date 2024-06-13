@@ -2,7 +2,8 @@
 
 ---
 
-Disclaimer: ChatGPT wrote this version of this readme.
+Disclaimer: ChatGPT wrote most of this readme. 
+I added very little manually.
 It's a placeholder based on passing in some of the files as of 2024-06-13.
 
 ---
