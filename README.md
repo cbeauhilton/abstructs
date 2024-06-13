@@ -54,57 +54,15 @@ settings = Settings()
 
 Make sure to update the `.env` file with your actual keys and database URL.
 
-## Database
-
-Database operations are handled in `database.py`. This file contains the setup and interaction logic for the database. To initialize the database, the `init_db` function is called on startup.
-
-### Example Models
-
-```python
-from sqlmodel import Field, SQLModel
-
-class StructuredResponse(SQLModel):
-    id: int | None = Field(default=None, primary_key=True)
-    Diagnosis: str
-    # ... other fields ...
-```
-
-## Running the Application
-
-To run the FastAPI application, execute the following command:
-
-```bash
-uvicorn main:app --reload
-```
-
-The application will be accessible at `http://127.0.0.1:8000`.
-
 ## Endpoints
+
+### `/structured-response`
+
+Create a structured response from a URL and show it on the web page.
 
 ### `/structured-response/json`
 
-Create a structured response from a URL.
-
-**POST** `/structured-response/json`
-
-#### Request Body
-
-```json
-{
-    "url": "string"
-}
-```
-
-#### Response
-
-```json
-{
-    "id": 1,
-    "Diagnosis": "string",
-    // ... other fields ...
-}
-```
-
+Same deal, but returns raw JSON.
 
 ## Contributing
 
