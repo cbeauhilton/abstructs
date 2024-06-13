@@ -17,18 +17,18 @@ app = FastAPI()
 
 async def get_structured_response(url: str):
     logger.info(f"Received URL: {url}")
+
     # Check if a response for the given URL already exists in the database
     doi = extract_doi(url)
-
     with Session(engine) as session:
         statement = select(StructuredResponseWithURL).where(
             StructuredResponseWithURL.doi == doi
         )
         cached_response = session.exec(statement).first()
-
     if cached_response:
         llm_response = cached_response
         logger.info(f"Loaded from cache: {llm_response}")
+
     else:
         abstract = await fetch_abstract(url)
         llm_response = await get_llm_response(abstract)

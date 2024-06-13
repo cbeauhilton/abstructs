@@ -9,7 +9,9 @@ def setup_logging():
         logger.setLevel(logging.INFO)
 
         console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.INFO)
+        console_handler.setLevel(logging.DEBUG)
+        # instructor will give us all the prompts and token counts, etc.,
+        # if we keep logging at DEBUG
 
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
