@@ -68,6 +68,4 @@ Fork and PR, you know the drill.
 ## TODO
 
 - add a dev mode flag that selects local db and uses a free LLM
-- add a popout pane on the main page that lists out urls that have already been made into abstructs
-- prepopulate the main page on load with a random cached abstruct
 - scrape HemOnc.org for a bajillion trials and cache these (when I'm confident the LLM is doing a good enough job)
