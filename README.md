@@ -1,6 +1,6 @@
-# Abstructs
+# abstructs
 
-Abstructs is a Python-based application using FastAPI and LLMs
+abstructs is a Python-based application using FastAPI and LLMs
 to generate structured summaries of clinical trial data from abstracts. 
 
 It was inspired by the indomitable Jim Chen's Pythonista script.
@@ -39,8 +39,9 @@ class Settings(BaseSettings):
     TURSO_AUTH_TOKEN: str
     PYALEX_EMAIL: str # Whatever email address you want,
     # doesn't even have to be real.
-    # It's not required, but makes you a good citizen
+    # It's not required to use their API, but makes you a good citizen
     # and might get you slightly faster responses.
+    # abstructs will error if it's not provided.
 
     class Config:
         env_file = ".env"
