@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str
     TURSO_DATABASE_URL: str
     TURSO_AUTH_TOKEN: str
+    PYALEX_EMAIL: str
 
     class Config:
         env_file = ".env"

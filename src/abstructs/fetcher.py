@@ -4,28 +4,30 @@ import re
 import httpx
 import pyalex
 from abstructs.logging_config import setup_logging
+from abstructs.config import settings
 from playwright.async_api import async_playwright
 from pyalex import Authors, Funders, Institutions, Publishers, Sources, Topics, Works
 from selectolax.parser import HTMLParser
 
 logger = setup_logging()
 
-pyalex.config.email = "beau@beauhilton.com"
+pyalex.config.email = settings.PYALEX_EMAIL
 pyalex.config.max_retries = 0
 pyalex.config.retry_backoff_factor = 0.1
 pyalex.config.retry_http_codes = [429, 500, 503]
 
+# This whole file can probably be simplified down to just the pyalex stuff and utils around DOIs.
+# When I started this, I was doing traditional web scraping to get the abstracts, but then saw the light.
+
 JOURNAL_SELECTORS = {
-    "nejm.org": "#summary-abstract",
+    "nejm.org": "#summary-abstract",  # probably unnecessary now that this is a DOI-first project and all NEJM article URLS have DOI embedded
     "doi.org": "",  # for doi urls, OpenAlex will give us the abstract without a selector
 }
 
-# List of User-Agents for rotation
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
-    # Add more user agents if needed
 ]
 
 

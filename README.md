@@ -1,17 +1,9 @@
 # Abstructs
 
----
-
-Disclaimer: ChatGPT wrote most of this readme. 
-I added very little manually.
-It's a placeholder based on passing in some of the files as of 2024-06-13.
-
----
-
 Abstructs is a Python-based application using FastAPI and LLMs
 to generate structured summaries of clinical trial data from abstracts. 
-The application interacts with various language model clients, manages configurations, and handles database operations.
 
+It was inspired by the indomitable Jim Chen's Pythonista script.
 ## Installation
 
 To install the required dependencies, use the following command:
@@ -45,6 +37,8 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str
     TURSO_DATABASE_URL: str
     TURSO_AUTH_TOKEN: str
+    PYALEX_EMAIL: str # Whatever email address you want, doesn't even have to be real. 
+    # It's not required, but makes you a good citizen and gets you slightly faster responses.
 
     class Config:
         env_file = ".env"
@@ -71,3 +65,10 @@ Fork and PR, you know the drill.
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## TODO
+
+- add a dev mode flag that selects local db and uses a free LLM
+- add a popout pane on the main page that lists out urls that have already been made into abstructs
+- prepopulate the main page on load with a random cached abstruct
+- scrape HemOnc.org for a bajillion trials and cache these (when I'm confident the LLM is doing a good enough job)

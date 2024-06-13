@@ -2,7 +2,7 @@
 name = "abstructs"
 version = "0.1.0"
 description = ""
-authors = ["Beau <cbeauhilton@gmail.com>"]
+authors = ["Beau <beau@beauhilton.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
