@@ -30,7 +30,6 @@
           abstructs
         </h1>
         <div class="w-6"></div>
-        <!-- Spacer to balance the toggle button -->
       </div>
       <div class="flex flex-col md:flex-row">
         <div
@@ -70,22 +69,22 @@
             hx-indicator="#spinner"
             class="max-w-lg mx-auto w-full"
           >
-            <div class="mb-4">
+            <div class="mb-4 flex-col">
               <input
                 type="text"
                 id="url"
                 name="url"
                 required
                 placeholder="Enter a URL"
-                class="w-full px-3 py-2 text-gray-700 dark:text-gray-400 dark:bg-gray-800 border dark:border-gray-700 rounded-lg focus:outline-none focus:border-blue-500"
+                class="flex-grow px-5 py-2 text-gray-700 dark:text-gray-400 dark:bg-gray-800 border dark:border-gray-700 rounded-lg focus:outline-none focus:border-blue-500"
               />
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 ml-1">
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 This is designed primarily for oncology clinical trials. Only
                 nejm.org, doi.org, or direct doi specifiers (e.g.
                 10.1056/NEJMoa2312695) are currently supported.
               </p>
             </div>
-            <div class="text-center mt-4">
+            <div class="text-center">
               <button
                 type="submit"
                 class="inline-flex items-center justify-center rounded-md bg-slate-900 ring-2 ring-blue-500 hover:bg-black px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus:outline-none focus:shadow-outline"
@@ -122,8 +121,6 @@
           var sidebar = document.getElementById("sidebar");
           sidebar.classList.toggle("hidden");
         });
-
-      // Close sidebar on link click
       document.querySelectorAll("#abstruct-list a").forEach(function (link) {
         link.addEventListener("click", function () {
           var sidebar = document.getElementById("sidebar");
