@@ -21,7 +21,7 @@ pyalex.config.retry_http_codes = [429, 500, 503]
 
 JOURNAL_SELECTORS = {
     "nejm.org": "#summary-abstract",  # probably unnecessary now that this is a DOI-first project and all NEJM article URLS have DOI embedded
-    "doi.org": "",  # for doi urls, OpenAlex will give us the abstract without a selector
+    "doi.org": "",  # for doi urls, OpenAlex will give us the abstract directly without needing a selector
 }
 
 USER_AGENTS = [
@@ -34,47 +34,20 @@ USER_AGENTS = [
 def extract_doi(url: str) -> str:
     if url.startswith("https://doi.org/"):
         return url
-    elif "nejm.org" in url:
-        parts = url.split("/")
-        if "full" in parts:
-            doi_index = parts.index("full") + 1
-            if doi_index < len(parts):
-                return f"https://doi.org/{'/'.join(parts[doi_index:])}"
-    else:
-        # Check if the input is a DOI itself using a regular expression
-        doi_pattern = re.compile(r"10.\d{4,9}/[-._;()/:A-Z0-9]+", re.IGNORECASE)
-        match = doi_pattern.search(url)
-        if match:
-            return f"https://doi.org/{match.group(0)}"
+    # Check if the URL contains a full DOI using a regular expression
+    doi_pattern = re.compile(r"10\.\d{4,9}/[-._;()/:A-Z0-9]+", re.IGNORECASE)
+    match = doi_pattern.search(url)
+    if match:
+        return f"https://doi.org/{match.group(0)}"
     return ""
 
 
 def ensure_https_protocol(url: str) -> str:
     if not url.startswith(("http://", "https://")):
         return "https://" + url
+    if url.startswith("http://"):
+        return "https://" + url[7:]
     return url
-
-
-async def fetch_abstract(url: str) -> str:
-    url = ensure_https_protocol(url)
-    doi_url = extract_doi(url)
-    if doi_url:
-        abstract = await get_pyalex_abstract(doi_url)
-        if abstract:
-            return abstract
-    matching_domain = get_matching_domain(url)
-    if not matching_domain:
-        raise HTTPException(status_code=400, detail="Unsupported journal")
-    selector = JOURNAL_SELECTORS[matching_domain]
-    try:
-        abstract = await fetch_abstract_with_httpx(url, selector)
-        return abstract
-    except httpx.HTTPStatusError as e:
-        logger.error(f"HTTPX Request failed: {e}")
-        if e.response.status_code == 403:
-            return await fetch_abstract_with_playwright(url, selector)
-        else:
-            raise HTTPException(status_code=e.response.status_code, detail=str(e))
 
 
 async def get_pyalex_abstract(doi_url: str) -> str | None:
@@ -116,3 +89,37 @@ async def fetch_abstract_with_httpx(url: str, selector: str) -> str:
         raise HTTPException(status_code=404, detail="Abstract not found on the page")
 
     return abstract_node.text(strip=True)
+
+
+async def fetch_abstract(url: str) -> str:
+    url = ensure_https_protocol(url)
+    doi_url = extract_doi(url)
+
+    if doi_url:
+        abstract = await get_pyalex_abstract(doi_url)
+        if abstract:
+            return abstract
+
+    matching_domain = get_matching_domain(url)
+    if not matching_domain:
+        raise HTTPException(status_code=400, detail="Unsupported journal")
+
+    selector = JOURNAL_SELECTORS[matching_domain]
+
+    try:
+        abstract = await fetch_abstract_with_httpx(url, selector)
+        return abstract
+    except httpx.HTTPStatusError as e:
+        logger.error(f"HTTPX Request failed: {e}")
+        if e.response.status_code == 403:
+            try:
+                abstract = await fetch_abstract_with_playwright(url, selector)
+                return abstract
+            except Exception as e:
+                logger.error(f"Playwright request failed: {e}")
+                raise HTTPException(status_code=500, detail="Failed to fetch abstract")
+        else:
+            raise HTTPException(status_code=e.response.status_code, detail=str(e))
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch abstract")
