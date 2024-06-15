@@ -91,6 +91,22 @@ async def fetch_abstract_with_httpx(url: str, selector: str) -> str:
     return abstract_node.text(strip=True)
 
 
+async def fetch_abstract_with_playwright(url: str, selector: str) -> str:
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=False)
+        page = await browser.new_page()
+        await page.goto(url)
+        content = await page.content()
+        await browser.close()
+
+    parser = HTMLParser(content)
+    abstract_node = parser.css_first(selector)
+    if not abstract_node:
+        raise HTTPException(status_code=404, detail="Abstract not found on the page")
+
+    return abstract_node.text(strip=True)
+
+
 async def fetch_abstract(url: str) -> str:
     url = ensure_https_protocol(url)
     doi_url = extract_doi(url)
